@@ -1,0 +1,18 @@
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
+test_async:
+  script:
+    - npm install
+
+test_db:
+  script:
+    - npm install
+
+deploy:
+  stage: deploy
+  script: echo "Deploy fin""
+  environment: production
