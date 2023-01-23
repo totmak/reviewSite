@@ -7,8 +7,5 @@ on: [push]
 jobs:
   Explore-GitHub-Actions:
     runs-on: node-latest
-  cache:
-    paths:
-      - node_modules/
   steps:
     - run: npm install
