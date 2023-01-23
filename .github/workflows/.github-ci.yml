@@ -2,13 +2,13 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 
-cache:
-  paths:
-    - node_modules/
+
 
 jobs:
   Explore-GitHub-Actions:
     runs-on: node-latest
-    
-    steps:
-      - run: npm install
+  cache:
+    paths:
+      - node_modules/
+  steps:
+    - run: npm install
