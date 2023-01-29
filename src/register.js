@@ -5,14 +5,14 @@ import List from './components/list.js'
 import {socket} from './App.js'
 
 const inputSlots = [
-  {"id": "username",  "name": "Username", "type": "text", "length": {"min": 6, "max": 16},
+  {"id": "username",  "name": "Username", "type": "text", "length": {"min": 4, "max": 8},
   "ruleset": {"upperCasin": -1, "numbers": -1, "special": -1}
   },
-  {"id": "firstname",  "name": "Forename", "type": "text", "length": {"min": 3, "max": 16},
-  "ruleset": {"upperCasin": 0, "numbers": -1, "special": -1}
+  {"id": "firstname",  "name": "Forename", "type": "text", "length": {"min": 2, "max": 16},
+  "ruleset": {"upperCasin": -1, "numbers": -1, "special": -1}
   },
-  {"id": "lastname",  "name": "Surname", "type": "text", "length": {"min": 3, "max": 16},
-  "ruleset": {"upperCasin": 0, "numbers": -1, "special": -1}
+  {"id": "lastname",  "name": "Surname", "type": "text", "length": {"min": 2, "max": 16},
+  "ruleset": {"upperCasin": -1, "numbers": -1, "special": -1}
   },
   {"id": "password", "name": "Password", "type": "password", "length": {"min": 8, "max": 32},
   "ruleset": {"upperCasin": 1, "numbers": 1, "special": 0}
@@ -45,17 +45,30 @@ export default class Register extends React.Component {
       this.style[item.id] = '';
     });
 
-    this.style["submitButtonIsDisabled"] = true;
-    this.invalidList = [];
+    this.state["submitButtonIsDisabled"] = false;
+    this.state.invalidList = [];
     this.style.invalidList = this.getInvalidListContent.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onSubmit = this.onSubmitHandle.bind(this);
 
+
+
   }
 
-  onSubmitHandle(event){
-    event.preventDefault();
-    socket.emit('submit', this.state);
+  /*
+    If not called inputs field will be considered valid
+  */
+
+  componentDidMount(){
+    this.validateInputs();
+  }
+
+  /*
+  * Called when the user clicks submit button
+  *
+  */
+  onSubmitHandle(){
+    socket.emit('submitRegisterUser', this.state);
   }
 
   getInvalidListContent(){
@@ -64,11 +77,9 @@ export default class Register extends React.Component {
     })
   }
 
-  /*
-    change is value from this.state
-  */
+
   getInvalids(raw, change){
-    let list = [];
+    const list = [];
     if (!this.validateInputLength(raw, change)) {
       list.push([raw.id, 0])
     }
@@ -110,48 +121,78 @@ export default class Register extends React.Component {
 
   getStringOfInvalidList(){
     const list = [];
-    this.invalidList.forEach((item, i) => {
+    this.state.invalidList.forEach((item, i) => {
       const key = inputSlotDic[item[0]];
       switch (item[1]) {
         case 0:
           list.push(`${key.name} must contain between ${key.length.min} and ${key.length.max} characters`);
           break;
         case 1:
-        list.push(this.getRulesetString(key));
-
+          list.push(this.getRulesetString(key));break;
+        default:
+          console.error(item)
       }
     });
-    console.log(list)
+
     return list;
   }
 
-  validateInputs(event){
-    this.invalidList.length = 0;
+  validateInputs(){
+    const refInvalidList = []
     inputSlots.forEach((item, i) => {
-      this.invalidList = this.invalidList.concat(
-        this.getInvalids(inputSlotDic[item.id], this.state[item.id])
-      )
+        const li = this.getInvalids(inputSlotDic[item.id], this.state[item.id]);
+        for(var x of li){
+          refInvalidList.push(x);
+        }
+    })
+
+    this.setState(() => {
+      return {invalidList: refInvalidList}
     });
-    if (this.invalidList.length > 0){
-      this.style.submitButtonIsDisabled = true;
+  }
+
+
+  submitIsSecure(){
+    return (this.state.invalidList.length == 0);
+  }
+
+  handleSubmitButton(){
+    if (this.submitIsSecure()){
+      this.setState(() => { return {submitButtonIsDisabled: false} });
     } else {
-      this.style.submitButtonIsDisabled = false;
+      this.setState(() => { return {submitButtonIsDisabled: true} });
     }
   }
 
   setStyleValid(raw){ this.style[raw.id] = "validText"; }
   setStyleInvalid(raw){ this.style[raw.id] = "invalidText"; }
 
-  onInputChange(event){
-    this.validateInputs(event);
-    const id = event.target.id;
-    const value = event.target.value;
-    this.setState( { [id]: value } )
+
+  /*
+    Called from onInputChange
+  */
+
+  validateField(id, value){
+    this.setState(() => { return {[id]: value} });
+
+
+    this.validateInputs();
     if (this.validateInputLength(inputSlotDic[id], value) && this.validateRuleset(inputSlotDic[id], value)){
       this.style[inputSlotDic[id].id] = "validText";
     } else {
       this.style[inputSlotDic[id].id] = "invalidText";
     }
+
+  }
+
+  /*
+    called from input change
+  */
+
+  onInputChange(event){
+    const id = event.target.id;
+    const value = event.target.value;
+    this.validateField(id, value);
   }
 
   /*
@@ -186,11 +227,12 @@ export default class Register extends React.Component {
 
 
   validateInputLength(raw, change){
+
     return this.validateInputMinLength(raw, change) && this.validateInputMaxLength(raw, change);
   }
 
   validateInputMinLength(raw, change){
-    if (change.length > raw.length.min){
+    if (change.length >= raw.length.min){
       return true;
     } else {
       return false;
@@ -228,10 +270,11 @@ export default class Register extends React.Component {
     const rForm = inputSlots.map((item, i) => {
       const id = item.id;
       return <div key={id}><label htmlFor={item.id}>{item.name}</label>:
-      {<Input id={item.id} name={item.name} register={this} type={item.type}/>}</div>
+      {<Input id={item.id} name={item.name} value={this.state[item.id]} onChange={this.onInputChange} type={item.type} style={this.style[item.id]}/>}</div>
     })
     const toolTip = <List content={this.style.invalidList}/>;
+    const submittingIsDisabled = this.state.invalidList.length > 0;
 
-    return <form onSubmit={this.onSubmit} >{rForm}<div><Button id="registerButton" text="Submit" isDisabled={this.style.submitButtonIsDisabled} type="submit"/></div>{toolTip}</form>;
+    return <form id="registerForm" onSubmit={this.onSubmit} >{rForm}<div><Button id="registerButton" text="Submit" isDisabled={submittingIsDisabled} type="submit"/></div>{toolTip}</form>;
   }
 }

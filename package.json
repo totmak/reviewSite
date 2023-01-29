@@ -5,10 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server .",
-    "build": "webpack .",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+        "predeploy": "npm run build" ,
+        "build": "webpack build",
+        "deploy": "gh-pages -d build",
+        "start": "webpack-dev-server ."
   },
   "author": "",
   "license": "ISC",
