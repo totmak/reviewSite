@@ -1,0 +1,60 @@
+.invalidText { color: red; }
+.validText { color: green; }
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: white;
+}
+
+nav li {
+  float: left;
+  background: #666;
+  text-align: center;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 2px 2px black;
+  font-weight: bolder;
+}
+
+
+
+nav li:hover {
+  background-color:  silver;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+
+div {
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+
+#banner {
+  height: 80%;
+}
+
+#root {
+  width: 1920px;
+  height: 1080px;
+  margin: 0px;
+  padding: 0px;
+}
+
+#header {
+  height: 10%;
+}
+
+#body {
+  height: 80%;
+}
