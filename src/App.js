@@ -9,7 +9,7 @@ import About from './about.js'
 import Container from './container.js'
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:8080");
+export const socket = io("http://localhost:6055");
 
 
 const options = ["login", "register", "chat", "about"];
