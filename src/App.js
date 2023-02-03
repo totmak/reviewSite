@@ -1,54 +1,56 @@
-import React from "react";
-import Register from './register.js'
-import Header from './header.js'
-import Body from './body.js'
-import Nav from './nav.js'
-import Login from './login.js'
-import Chat from './chat.js'
-import About from './about.js'
-import Container from './container.js'
+import React  from "react";
+import Register from './components/register.js'
+import Header from './components/header.js'
+import Body from './components/body.js'
+import Nav from './components/nav.js'
+import Login from './components/login.js'
+import Chat from './components/chat.js'
+import About from './components/about.js'
+import Loading from './components/loading.js'
+import Container from './components/container.js'
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:6055");
+export const socket = io("reviewsitebackend-production.up.railway.app", {
+  withCredentials: true,
+  transports : ['websocket']
+})
+
+//localhost:8080
+//reviewsitebackend-production.up.railway.app
+
+function logout(){
+  socket.emit('logout', sessionStorage.getItem("user_id"));
+}
 
 
-const options = ["login", "register", "chat", "about"];
+function getPageStyle(type){
+  switch(type) {
+    case "nav.login":     return <Login />
+    case "nav.register":  return <Register />
+    case "nav.chat":      return <Chat />
+    case "nav.about":     return <About />
+    case "nav.logout":
+      logout();
+      return <Login />
+  }
+}
+
+
 
 export default function App() {
-
-  const [pageType, SetPageUpdate] = React.useState("nav.register");
-  //const [signedInAs, SetLogin] = React.useState("nav.register");
-
+  const [pageType, SetPageUpdate] = React.useState("nav.chat");
+  const [isConnected, SetConnect] = React.useState(false);
+  const [login, SetLogin] = React.useState(sessionStorage.getItem("loggedInAs"));
   const loggin = function(event){
     SetPageUpdate(event.target.id);
   }
 
-  let pageStyle;
-
-
-  switch(pageType) {
-    case "nav.login":
-      pageStyle = <Login />;break;
-    case "nav.register":
-      pageStyle = <Register />;break;
-    case "nav.chat":
-      pageStyle = <Chat />;break;
-    case "nav.about":
-      pageStyle = <About />;break;
-
-  }
-
+  const pageStyle = getPageStyle(pageType);
   const body = <Body content={pageStyle}/>
   const logginAs  = sessionStorage.getItem("loggedInAs");
-
-  const somx = true;
-  const nav = <Nav options={options} onClick={loggin} />
-  const header = <Header navBar={nav} login={logginAs}/>
+  const nav = <Nav onClick={loggin} login={login} />
+  const header = <Header navBar={nav} login={login} setLogin={SetLogin} setPage={SetPageUpdate}/>
   const container = <Container header={header} body={body}/>
-
-  return (
-    <div>
-    {container}
-    </div>
-  );
+  const page = isConnected==true?( <div> {container} </div> ):<Loading connect={SetConnect}/>;
+  return page;
 }

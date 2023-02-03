@@ -13,7 +13,7 @@ module.exports = {
     port: '3000',
     static: {
       directory: path.join(__dirname, 'public')
-},
+    },
     open: true,
     hot: true,
     liveReload: true,

@@ -1,8 +1,8 @@
 import React from 'react'
-import Input from './components/input.js'
-import Button from './components/button.js'
-import List from './components/list.js'
-import {socket} from './App.js'
+import Input from '../elements/input.js'
+import Button from '../elements/button.js'
+import List from '../elements/list.js'
+import {socket} from '../App.js'
 
 const inputSlots = [
   {"id": "username",  "name": "Username", "type": "text", "length": {"min": 4, "max": 8},
@@ -50,9 +50,6 @@ export default class Register extends React.Component {
     this.style.invalidList = this.getInvalidListContent.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onSubmit = this.onSubmitHandle.bind(this);
-
-
-
   }
 
   /*
@@ -67,8 +64,9 @@ export default class Register extends React.Component {
   * Called when the user clicks submit button
   *
   */
-  onSubmitHandle(){
+  onSubmitHandle(e){
     socket.emit('submitRegisterUser', this.state);
+    e.preventDefault()
   }
 
   getInvalidListContent(){

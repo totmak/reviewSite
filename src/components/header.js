@@ -1,19 +1,24 @@
 import React from 'react'
-import {socket} from './App.js'
+import {socket} from '../App.js'
+
+const unregistered = {"login": undefined};
+
 
 
 export default class Header extends React.Component {
   constructor(props){
     super(props);
     this.props = props;
-    this.state = {"login": sessionStorage.getItem('loggedInAs')}
     this.loginChange = this.handleLoginChange.bind(this);
+
   }
 
   handleLoginChange(newlogin){
-    this.setState(() => {
-      return {login: newlogin}
-    });
+    if (newlogin == undefined){
+      this.props.setLogin(undefined)
+    } else {
+      this.props.setLogin(newlogin)
+      this.props.setPage("nav.chat");    }
   }
 
   componentDidMount() {
@@ -22,10 +27,18 @@ export default class Header extends React.Component {
       alert("Sorry, incorrect username");
     })
 
+    socket.on('loginOutConfirm', (msg, socket) => {
+      sessionStorage.clear();
+      this.handleLoginChange(undefined);
+      alert("You have logged out");
+    })
+
+
     socket.on('loginSuccess', (msg, socket) => {
       const userName = msg.value;
       this.handleLoginChange(userName);
       sessionStorage.setItem("loggedInAs", userName);
+      sessionStorage.setItem("user_id", msg.uID);
       alert(`You have succesfully logged in as ${userName}`)
     })
 
@@ -36,13 +49,11 @@ export default class Header extends React.Component {
 
   render(){
     let loginStatus;
-
     const logi = this.loginChange;
-    if (logi == undefined){
-
+    if (this.props.login == undefined){
       loginStatus = "unlogged (visitor)";
     } else {
-      loginStatus = "logged in as "+this.state.login;
+      loginStatus = "logged in as "+this.props.login;
     }
 
     return <div id="header">

@@ -1,8 +1,7 @@
 import React from 'react'
-import Input from './components/input.js'
-import Button from './components/button.js'
-import List from './components/list.js'
-import {socket} from './App.js'
+import Input from '../elements/input.js'
+import Button from '../elements/button.js'
+import {socket} from '../App.js'
 
 
 const inputSlots = [
