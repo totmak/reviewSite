@@ -15,8 +15,10 @@ export const socket = io("reviewsitebackend-production.up.railway.app", {
   transports : ['websocket']
 })
 
-//localhost:8080
-//reviewsitebackend-production.up.railway.app
+/*
+  localhost:8080
+  reviewsitebackend-production.up.railway.app
+*/
 
 function logout(){
   socket.emit('logout', sessionStorage.getItem("user_id"));
