@@ -58,6 +58,6 @@ export default class Nav extends React.Component {
 
 
     return <nav>
-    <List content={this.onStateChange}/></nav>
+    <List id="nav" content={this.onStateChange}/></nav>
   }
 }

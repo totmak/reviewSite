@@ -270,9 +270,9 @@ export default class Register extends React.Component {
       return <div key={id}><label htmlFor={item.id}>{item.name}</label>:
       {<Input id={item.id} name={item.name} value={this.state[item.id]} onChange={this.onInputChange} type={item.type} style={this.style[item.id]}/>}</div>
     })
-    const toolTip = <List content={this.style.invalidList}/>;
+    const toolTip = <List id="invaList" content={this.style.invalidList}/>;
     const submittingIsDisabled = this.state.invalidList.length > 0;
 
-    return <form id="registerForm" onSubmit={this.onSubmit} >{rForm}<div><Button id="registerButton" text="Submit" isDisabled={submittingIsDisabled} type="submit"/></div>{toolTip}</form>;
+    return <div id="aside"><form id="registerForm" onSubmit={this.onSubmit} >{rForm}<div><Button id="registerButton" text="Submit" isDisabled={submittingIsDisabled} type="submit"/></div>{toolTip}</form></div>;
   }
 }

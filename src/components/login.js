@@ -41,10 +41,10 @@ export default class Login extends React.Component {
       {<Input id={item.id} name={item.name} onChange={this.onChange} type={item.type}/>}</div>
     })
 
-    return <form id="loginForm" onSubmit={this.onSubmit}>
+    return <div id="aside"><form id="loginForm" onSubmit={this.onSubmit}>
       {rForm}
       <div><Button id="loginButton" text="Login" type="submit"/>
       </div>
-    </form>
+    </form></div>
   }
 }

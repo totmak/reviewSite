@@ -43,7 +43,8 @@ export default class Chat extends React.Component {
 
   handleMessageHTML(){
     return this.state.messages.map((item, i) => {
-      return <li key={i}><b>{this.state.participants[item.user]}</b>:{item.message}</li>
+      const mesHeight = (20*(1+Math.floor(item.message.length/75)));
+      return <li  style={{height: mesHeight +"px"}} key={i}><b>{this.state.participants[item.user]}</b>:{item.message}</li>
     })
   }
 
@@ -74,23 +75,22 @@ export default class Chat extends React.Component {
 
   getMessageForm(){
     if (this.state.isConnectedToGroup == true){
-     return <form onSubmit={this.onSubmitSendMsg}><label htmlFor="messageInputIn">Message</label>:<Input style="basicInput" name="Hello" id="messageInputIn" onChange={this.onChangeTypingMessage} value={this.state.value}/><Button id="sendMsgButton" text="Send" type="submit"/></form>
+     return <form onSubmit={this.onSubmitSendMsg}><label htmlFor="messageInputIn">Message</label>:<Input style="basicInput" name="insert message here" id="messageInputIn" onChange={this.onChangeTypingMessage} value={this.state.value}/><Button id="sendMsgButton" text="Send" type="submit"/></form>
   } else { return ""; }
   }
 
   render(){
     const Msgform = this.messageForm;
-    console.log(Msgform)
-    return <div id="body">
-
-      <this.messageForm/>
+    return <div id="aside">
+      <p><i>Use anonymously or register and login to get a username.</i></p>
       <form onSubmit={this.onSubmitJoin}>
-            <List content={this.onMessageHTML}/>
            <label htmlFor="groupName">Group name</label>
            <Input style="basicInput" name="some" id="groupConnectId"
            onChange={this.onChangeGroupName} value={this.state.value}/>
            <Button id="groupButton" text="Join" type="submit"/>
       </form>
+      <List id="chatList" content={this.onMessageHTML}/>
+      <this.messageForm/>
     </div>
   }
 }

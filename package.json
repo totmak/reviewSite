@@ -9,6 +9,7 @@
         "build": "webpack build",
         "deploy": "gh-pages -d build",
         "start": "webpack-dev-server ."
+        
   },
   "author": "",
   "license": "ISC",
