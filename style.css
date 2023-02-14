@@ -1,6 +1,8 @@
 .invalidText { color: red; }
 .validText { color: green; }
 
+
+
 nav ul {
   list-style-type: none;
   margin: 0;
@@ -24,7 +26,10 @@ nav li a {
   font-weight: bolder;
 }
 
-
+#aside {
+  background: #ffffff52;
+  padding: 2% 3%;
+}
 
 nav li:hover {
   background-color:  silver;
@@ -42,6 +47,15 @@ div {
 
 #banner {
   height: 80%;
+  background-color: #975f5e;
+  background-image: url('patterns/wood-pattern.png');
+}
+
+form {  width:100%;}
+
+h3 {
+  padding: 0px;
+  margin: 0px;
 }
 
 #root {
@@ -51,11 +65,46 @@ div {
   padding: 0px;
 }
 
+body {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
+}
+
+p {
+  margin: 0px;
+  padding: 0px;
+}
+
+h3 {
+  margin: 0;
+  padding: 25px;
+  color: white;
+  text-shadow: 2px 1px #000
+}
+
 #header {
   height: 10%;
 }
 
 #body {
   height: 80%;
-  background: grey;
+  background-color: #61425f;
+  background-image: url("patterns/black-thread-light.png");
+  overflow: hidden
+}
+
+#chatList {
+  background: white;
+  list-style-type: none;
+  width: 845px;
+  overflow: hidden;
+  display: block;
+  word-wrap: break-word;
+}
+
+#messageInputIn {
+  width: 800px;
+  overflow: hidden;
 }
