@@ -22,6 +22,17 @@ export default class Header extends React.Component {
   }
 
   componentDidMount() {
+
+
+    socket.on('registerSuccess', (msg, socket) => {
+      alert("You have succesfully registered. Please login!");
+    })
+
+    socket.on('usernameRegisterAlreadyUsed', (msg, socket) => {
+      alert("Sorry, username is already taken. Please try another.");
+    })
+
+
     socket.on('loginFailNoUsername', (msg, socket) => {
       sessionStorage.clear();
       alert("Sorry, incorrect username");
