@@ -16,8 +16,8 @@ export const socket = io(process.env.URL, {
   transports : ['websocket']
 })
 
-export const encryptor = SimpleEncryptor.createEncryptor(process.env.KEY);
 
+export const encryptor = SimpleEncryptor.createEncryptor(process.env.KEY);
 
 function stringNumberify(v){
 	var n = 1;
