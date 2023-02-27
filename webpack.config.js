@@ -5,7 +5,6 @@ const dotenv = require('dotenv');
 
 require('dotenv').config();
 module.exports = {
-
   entry: './index.js',
   mode: 'development',
   output: {
@@ -26,14 +25,10 @@ module.exports = {
     extensions: ['.js', '.jsx', '.json'],
     fallback:
       {
-"crypto": require.resolve("crypto-browserify"),
-"stream": require.resolve("stream-browserify"),
-"buffer": require.resolve("buffer"),
-
-
+        "crypto": require.resolve("crypto-browserify"),
+        "stream": require.resolve("stream-browserify"),
+        "buffer": require.resolve("buffer"),
       }
-
-
   },
   module: {
     rules: [
@@ -54,6 +49,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html'),
     }),
-        new webpack.EnvironmentPlugin(['KEY'])
+        new webpack.EnvironmentPlugin(['KEY', 'URL'])
   ]
 };

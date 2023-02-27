@@ -68,4 +68,15 @@ Code used by the backend is available at: https://github.com/totmak/reviewSiteBa
 
 
 A live demo is available at: https://reviewsite-production.up.railway.app/
-Additionally, localhost can be accessed by changing reviewsitebackend-production.up.railway.app to localhost:8080 in frontend's src/App.js, and backend's index.js ws:reviewsite-production.up.railway.app:3000 to ws:localhost:3000
+Additionally, localhost can be accessed locally through this requires .env file in both repositories
+
+Backend's repository's .env should contain:
+
+PORT = 8080
+KEY = insert_some_key
+URL = ws:localhost:3000
+MONGO_URL = insert_mongo_url
+
+While frontend's .env should contain:
+KEY = insert_some_key (must be same as backend's)
+URL = localhost:8080

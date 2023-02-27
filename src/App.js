@@ -11,7 +11,7 @@ import Container from './components/container.js'
 import { io } from "socket.io-client";
 import SimpleEncryptor from "simple-encryptor"
 
-export const socket = io("reviewsitebackend-production.up.railway.app", {
+export const socket = io(process.env.URL, {
   withCredentials: true,
   transports : ['websocket']
 })
@@ -26,11 +26,6 @@ function stringNumberify(v){
   }
   return n;
 }
-
-/*
-  localhost:8080
-  reviewsitebackend-production.up.railway.app
-*/
 
 function logout(){
   socket.emit('logout', encryptor.encrypt(sessionStorage.getItem("user_id")));
