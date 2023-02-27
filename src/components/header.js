@@ -1,5 +1,5 @@
 import React from 'react'
-import {socket} from '../App.js'
+import {socket,encryptor} from '../App.js'
 
 const unregistered = {"login": undefined};
 
@@ -23,7 +23,6 @@ export default class Header extends React.Component {
 
   componentDidMount() {
 
-
     socket.on('registerSuccess', (msg, socket) => {
       alert("You have succesfully registered. Please login!");
     })
@@ -33,7 +32,7 @@ export default class Header extends React.Component {
     })
 
 
-    socket.on('loginFailNoUsername', (msg, socket) => {
+    socket.on('loginFailNoUsername', (socket) => {
       sessionStorage.clear();
       alert("Sorry, incorrect username");
     })
@@ -46,10 +45,10 @@ export default class Header extends React.Component {
 
 
     socket.on('loginSuccess', (msg, socket) => {
-      const userName = msg.value;
+      const userName = encryptor.decrypt(msg).value;
       this.handleLoginChange(userName);
       sessionStorage.setItem("loggedInAs", userName);
-      sessionStorage.setItem("user_id", msg.uID);
+      sessionStorage.setItem("user_id", encryptor.decrypt(msg).uID);
       alert(`You have succesfully logged in as ${userName}`)
     })
 

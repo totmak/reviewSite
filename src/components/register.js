@@ -2,6 +2,8 @@ import React from 'react'
 import Input from '../elements/input.js'
 import Button from '../elements/button.js'
 import List from '../elements/list.js'
+import {encryptor} from "../App.js";
+
 import {socket} from '../App.js'
 
 const inputSlots = [
@@ -65,7 +67,7 @@ export default class Register extends React.Component {
   *
   */
   onSubmitHandle(e){
-    socket.emit('submitRegisterUser', this.state);
+    socket.emit('submitRegisterUser', encryptor.encrypt(this.state));
     e.preventDefault()
   }
 

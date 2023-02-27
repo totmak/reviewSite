@@ -9,11 +9,23 @@ import About from './components/about.js'
 import Loading from './components/loading.js'
 import Container from './components/container.js'
 import { io } from "socket.io-client";
+import SimpleEncryptor from "simple-encryptor"
 
 export const socket = io("reviewsitebackend-production.up.railway.app", {
   withCredentials: true,
   transports : ['websocket']
 })
+
+export const encryptor = SimpleEncryptor.createEncryptor(process.env.KEY);
+
+
+function stringNumberify(v){
+	var n = 1;
+  for(var x of v){
+  	n += (x.charCodeAt(0));
+  }
+  return n;
+}
 
 /*
   localhost:8080
@@ -21,7 +33,7 @@ export const socket = io("reviewsitebackend-production.up.railway.app", {
 */
 
 function logout(){
-  socket.emit('logout', sessionStorage.getItem("user_id"));
+  socket.emit('logout', encryptor.encrypt(sessionStorage.getItem("user_id")));
 }
 
 

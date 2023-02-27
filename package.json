@@ -5,11 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-        "predeploy": "npm run build" ,
-        "build": "webpack build",
-        "deploy": "gh-pages -d build",
-        "start": "webpack-dev-server ."
-        
+    "predeploy": "npm run build",
+    "build": "webpack build",
+    "deploy": "gh-pages -d build",
+    "start": "webpack-dev-server ."
   },
   "author": "",
   "license": "ISC",
@@ -26,8 +25,14 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "dotenv": "^16.0.3",
+    "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "socket.io-client": "^4.5.4"
+    "simple-encryptor": "^4.0.0",
+    "socket.io-client": "^4.5.4",
+    "stream-browserify": "^3.0.0"
   }
 }

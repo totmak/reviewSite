@@ -1,8 +1,7 @@
 import React from 'react'
 import Input from '../elements/input.js'
 import Button from '../elements/button.js'
-import {socket} from '../App.js'
-
+import {socket,encryptor} from '../App.js'
 
 const inputSlots = [
   {"id": "username", "name": "username", "type": "text"},
@@ -24,7 +23,7 @@ export default class Login extends React.Component {
 
   onSubmitHandle(){
     event.preventDefault();
-    socket.emit('submitLoginAttempt', this.state);
+    socket.emit('submitLoginAttempt', encryptor.encrypt(this.state));
   }
 
 

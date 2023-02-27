@@ -2,8 +2,7 @@ import React from 'react'
 import Button from '../elements/button.js'
 import Input from '../elements/input.js'
 import List from '../elements/list.js'
-
-import {socket} from '../App.js'
+import {socket,encryptor} from '../App.js'
 
 
 export default class Chat extends React.Component {
@@ -25,11 +24,12 @@ export default class Chat extends React.Component {
 
   componentDidMount() {
     socket.on('updateChatLog', (msg, socket) => {
-      this.setState(() => { return {participants: msg.participants} } );
+      const unMsg = encryptor.decrypt(msg);
+      this.setState(() => { return {participants: unMsg.participants} } );
       if (this.state.isConnectedToGroup == false){
         this.setState(() => { return {isConnectedToGroup: true} } );
       }
-      this.updateMessageTo(msg.messages);
+      this.updateMessageTo(unMsg.messages);
     })
   }
 
@@ -61,15 +61,15 @@ export default class Chat extends React.Component {
   }
 
   onSubmitSendMsgHandle(e){
-    socket.emit('sendChatMessage', {"group": this.state.group, "message": this.state.typingMessage, "user": sessionStorage.getItem("user_id") });
+    const msg = encryptor.encrypt({"group": this.state.group, "message": this.state.typingMessage, "user": sessionStorage.getItem("user_id") });
+    socket.emit('sendChatMessage', msg);
     e.preventDefault()
-
   }
 
   onSubmitJoinHandle(e){
     const uid = (sessionStorage.getItem("user_id"))==null?1:sessionStorage.getItem("user_id")
     const req = {"uID": uid, "group": this.state.group }
-    socket.emit('requestJoiningGroup', req);
+    socket.emit('requestJoiningGroup', encryptor.encrypt(req));
     e.preventDefault()
   }
 

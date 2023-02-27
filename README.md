@@ -32,24 +32,22 @@ These are additional requirements, and you may choose to implement all, none, or
 - [x] Which groups there are (the names).
 - [x] Who sent messages to which group.
 - [x] What the messages are (their text content).
-- [x] How many messages are there on average per user and/or group.
+- [] How many messages are there on average per user and/or group.
 - [x] Information needed to successfully join a group uninvited (access to this info would bypass the previous requirements)
 
-### Additional Remarks or Feautres
+### Additional Remarks or Features
 
-Front end utilizes React, while backend is written pure JavaScript.
+Frontend utilizes React, while the backend is written pure JavaScript.
 
-The sites provides user the option to register and loggin, granting them a username, which they will be identified by when using the entering chat.
+The site provides users the option to register and log in, granting them a username, which they will be identified by when using the entering chat. Registration and logging are not required, but the user may use the chat without, in which case they will be identified as a "visitor".
 
-Registration and logging is not required, but the user may use the chat without, in which case they will be identified as "visitor".
-
-When the user submits the name of the chat groups and presses "join", they will join a chat group and shown all its previous messages, but if the chat group does not exist, a new chat group is automatically created.
+When the user submits the name of the chat group and presses "join", they will join a chat group and show all its previous messages, but if the chat group does not exist, a new chat group is automatically created. When the frontend and backend communicate, the data is encrypted and decrypted using the environment key.
 
 The project uses socket.io to connect to the front and backend, compiled by Railway Cli. The backend connects to MongoDB hosted by Railway Cli.
 
-Everything that is stored in the database is encrypted using 16-character key, therefore without the key access to the database is worthless.
+Everything that is stored in the database is encrypted using a 16-character key, therefore without the key access to the database is worthless. In order to utilize the encrypted data, the backend server will decrypt the cursor using its key.
 
-In order to utilize the enrypted data, the backend server will decrypt the cursor using its key.
+
 
 Database structure works like this:
 
@@ -64,11 +62,10 @@ chats (database);
 * groups (collection)
 * messages (collection)
 
-Code used by backend is avaible at: https://github.com/totmak/reviewSiteBackend
+Code used by the backend is available at: https://github.com/totmak/reviewSiteBackend
 
 ## Running the application
 
 
-Live demo is available at: https://reviewsite-production.up.railway.app/
-Additionally, localhost can be accessed by changing reviewsitebackend-production.up.railway.app to localhost:8080 in frontend's App.js, and backend's index ws:reviewsite-production.up.railway.app:3000 to ws:localhost:3000
-
+A live demo is available at: https://reviewsite-production.up.railway.app/
+Additionally, localhost can be accessed by changing reviewsitebackend-production.up.railway.app to localhost:8080 in frontend's src/App.js, and backend's index.js ws:reviewsite-production.up.railway.app:3000 to ws:localhost:3000

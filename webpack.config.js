@@ -1,7 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
 
+require('dotenv').config();
 module.exports = {
+
   entry: './index.js',
   mode: 'development',
   output: {
@@ -20,6 +24,16 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
+    fallback:
+      {
+"crypto": require.resolve("crypto-browserify"),
+"stream": require.resolve("stream-browserify"),
+"buffer": require.resolve("buffer"),
+
+
+      }
+
+
   },
   module: {
     rules: [
@@ -31,8 +45,15 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+    }),
+    new webpack.ProvidePlugin({
+        process: 'process/browser',
+    }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'public', 'index.html')
-    })
+      template: path.join(__dirname, 'public', 'index.html'),
+    }),
+        new webpack.EnvironmentPlugin(['KEY'])
   ]
 };
