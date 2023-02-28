@@ -1,7 +1,7 @@
 {
   "name": "film_review",
   "version": "1.0.0",
-  "homepage": "https://totmak.github.io/reviewSite/",
+  "homepage": "reviewsite-production.up.railway.app",
   "description": "",
   "main": "index.js",
   "scripts": {
