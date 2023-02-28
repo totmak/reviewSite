@@ -11,9 +11,9 @@ import Container from './components/container.js'
 import { io } from "socket.io-client";
 import SimpleEncryptor from "simple-encryptor"
 
-console.log(process.env.HURL)
+console.log(process.env.URL)
 
-export const socket = io(process.env.HURL, {
+export const socket = io(process.env.URL, {
   withCredentials: true,
   transports : ['websocket']
 })
